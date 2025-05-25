@@ -1,0 +1,17 @@
+rte-unue:
+  enabled: false
+rte-actualite:
+  enabled: true
+  url: https://www.rte-france.com/actualites
+  name: RTE Actualité
+  parsers: rte_actualites
+iea:
+  enabled: true
+  url: https://www.iea.org/news
+  name: IEA
+  parsers: iea_news
+enedis:
+  enabled: false
+cre:
+  enabeld: false
+  url: https://www.cre.fr/actualites/toute-lactualite.html
