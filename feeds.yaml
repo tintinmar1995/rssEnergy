@@ -7,11 +7,13 @@ rte-wiki:
   enabled: false
   url: https://www.rte-france.com/wiki-energie/articles
   name: RTE Wiki Energie
+  img: https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/RTE_logo.svg/180px-RTE_logo.svg.png
 iea:
   enabled: true
   url: https://www.iea.org/news
   name: IEA
   parsers: iea_news
+  img: https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/International_Energy_Agency_%28IEA%29_logo.svg/330px-International_Energy_Agency_%28IEA%29_logo.svg.png
 enedis:
   enabled: false
   name: Enedis

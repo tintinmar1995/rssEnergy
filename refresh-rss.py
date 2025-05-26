@@ -12,16 +12,17 @@ os.makedirs('./scanned', exist_ok=True)
 
 for feed, args in feeds.items():
     if args.get('enabled', True):
-        print(args['name'], ': Scanning..')
+        print(args.get('name', feed), ': Scanning..')
         articles = {
-            'img': '',
+            'img': args['img'],
             'name' : args['name'],
             'url': args['url'],
             'articles': getattr(parsers, args['parsers'])(drv)
         }
 
-        with open(os.path.join('./scanned', feed + '.yaml'), 'w') as f:
+        with open(os.path.join('./scanned', feed + '.yaml'), 'w', encoding='utf-8') as f:
             yaml.dump(articles, f)
 
     else:
-        print(args['name'], ': Disabled !')
+        print(args.get('name', feed), ': Disabled !')
+
