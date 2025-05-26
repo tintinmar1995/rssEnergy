@@ -4,6 +4,15 @@ import locale
 import calendar
 import datetime
 
+def new_article(**kw):
+    out =  {k: kw.get(k, None) for k in [
+        'category', 'image', 'link', 'title', 'author', 'description',
+        'language', 'copyright', 'pubDate'
+    ]}
+
+    out['guid'] = hash(out['link'])
+    return out
+ 
 def iea_news(driver):
 
     driver.get("https://www.iea.org/news")
@@ -22,12 +31,14 @@ def iea_news(driver):
         title = article.find_element(By.CLASS_NAME, "m-news-detailed-listing__title").text
         dt = article.find_element(By.CLASS_NAME, "m-news-detailed-listing__date").text
         
+        link = article.find_element(By.CLASS_NAME, "m-news-detailed-listing__link").get_property('href')
+
         locale.setlocale(locale.LC_ALL, 'en_UK')
         dt = datetime.datetime.strptime(dt, "%d %B %Y")
 
-        parsedArticles.append({
-            "tag": tag, "img": img, "datetime": dt, "title": title
-        })
+        parsedArticles.append(new_article(
+            category=tag, image=img, pubDate=dt, title=title, link=link
+        ))
 
     driver.quit()
 
@@ -60,12 +71,10 @@ def rte_actualites(driver):
         dt.reverse()
         dt = datetime.datetime(*dt)
 
-        parsedArticles.append({
-            "img": img.get_property("src"),
-            "datetime": dt,
-            "title": title.text
-        })
+        parsedArticles.append(new_article(
+            image=img.get_property("src"), pubDate=dt,
+            title=title.text, link=article.get_property('href')
+        ))
 
     driver.quit()
-
     return parsedArticles
