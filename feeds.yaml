@@ -3,6 +3,10 @@ rte-actualite:
   url: https://www.rte-france.com/actualites
   name: RTE Actualité
   parsers: rte_actualites
+rte-wiki:
+  enabled: false
+  url: https://www.rte-france.com/wiki-energie/articles
+  name: RTE Wiki Energie
 iea:
   enabled: true
   url: https://www.iea.org/news
