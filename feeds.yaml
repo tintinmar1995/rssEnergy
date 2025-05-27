@@ -1,5 +1,3 @@
-rte-unue:
-  enabled: false
 rte-actualite:
   enabled: true
   url: https://www.rte-france.com/actualites
@@ -12,6 +10,18 @@ iea:
   parsers: iea_news
 enedis:
   enabled: false
+  name: Enedis
+  url: https://www.enedis.fr/presse
+enedis-odte:
+  enabled: false
+  name: Observatoire Français de la Transition Ecologique - Enedis
+  url: https://observatoire.enedis.fr/
+  img: https://observatoire.enedis.fr/themes/custom/enedis_ote/assets/images/logo-ote.png
 cre:
   enabeld: false
+  name: Commission de Régulation de l'Energie
   url: https://www.cre.fr/actualites/toute-lactualite.html
+energie-mediateur:
+  enabeld: false
+  name: Médiateur National de l'Energie
+  url: https://www.energie-mediateur.fr/le-mediateur/actualites/revue-de-presse/
