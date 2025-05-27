@@ -2,7 +2,11 @@ import requests
 import yaml
 import os
 
-url = os.environ['RSS_ENERGY_URL']
+with open('./config.yaml', encoding="utf-8") as f:
+    cfg = yaml.safe_load(f)
+    url = cfg['url']
+    usr = cfg['usr']
+    pwd = cfg['pwd']
 
 with open('./feeds.yaml', encoding="utf-8") as f:
     feeds = yaml.safe_load(f)
@@ -25,7 +29,7 @@ for feed, args in feeds.items():
         }
 
         # Envoi de la requête POST
-        response = requests.post(url + feed, json=data)
+        response = requests.post(url + feed, json=data, auth=requests.auth.HTTPBasicAuth(usr, pwd))
 
         # Affichage de la réponse
         print("Statut de la réponse:", response.status_code)
