@@ -28,6 +28,9 @@ cre:
   name: Commission de Régulation de l'Energie
   url: https://www.cre.fr/actualites/toute-lactualite.html
 energie-mediateur:
-  enabeld: false
+  enabled: false
   name: Médiateur National de l'Energie
   url: https://www.energie-mediateur.fr/le-mediateur/actualites/revue-de-presse/
+Engie:
+  enabled: false
+  url: https://newsroom.engie.com/news/
