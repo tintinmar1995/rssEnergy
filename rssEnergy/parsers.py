@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 import locale
 import calendar
 import datetime
+import hashlib
 
 def new_article(**kw):
     out =  {k: kw.get(k, None) for k in [
@@ -10,7 +11,7 @@ def new_article(**kw):
         'language', 'copyright', 'pubDate'
     ]}
 
-    out['guid'] = hash(out['link'])
+    out['guid'] = hashlib.sha256(out['link'].encode()).hexdigest()
     return out
  
 def iea_news(driver):
@@ -34,14 +35,13 @@ def iea_news(driver):
         link = article.find_element(By.CLASS_NAME, "m-news-detailed-listing__link").get_property('href')
 
         locale.setlocale(locale.LC_ALL, 'en_UK')
-        dt = datetime.datetime.strptime(dt, "%d %B %Y")
+        dt = datetime.datetime.strptime(dt, "%d %B %Y").strftime("%Y-%m-%d %H:%M:%S")
 
         parsedArticles.append(new_article(
             category=tag, image=img, pubDate=dt, title=title, link=link
         ))
 
     driver.quit()
-
     return parsedArticles
 
 
@@ -69,11 +69,50 @@ def rte_actualites(driver):
         dt[1] = months[dt[1]]
         dt[2] = int(dt[2])
         dt.reverse()
-        dt = datetime.datetime(*dt)
+        dt = datetime.datetime(*dt).strftime("%Y-%m-%d %H:%M:%S")
 
         parsedArticles.append(new_article(
             image=img.get_property("src"), pubDate=dt,
             title=title.text, link=article.get_property('href')
+        ))
+
+    driver.quit()
+    return parsedArticles
+
+
+def enedis_odte(driver, lang = 'fr_FR'):
+
+    locale.setlocale(locale.LC_ALL, lang)
+    months = {
+        calendar.month_name[month_idx].lower():
+        month_idx for month_idx in range(1,13)
+    }
+
+    driver.get("https://observatoire.enedis.fr/tous-les-articles")
+
+    articlesContainer = driver.find_element(By.CLASS_NAME, "views-infinite-scroll-content-wrapper")
+    articles = articlesContainer.find_elements(By.CLASS_NAME, "views-row")
+
+    parsedArticles = list()
+    for article in articles:
+
+        img = article.find_element(By.TAG_NAME, "img")
+        link = article.find_element(By.TAG_NAME, "a")
+        title = article.find_element(By.CLASS_NAME, "article-card__body__title").text
+
+        dt = article.find_element(By.CLASS_NAME, "article-card__body__date").text.split(' ')
+        dt[0] = int(dt[0])
+        dt[1] = months[dt[1]]
+        dt[2] = int(dt[2])
+        dt.reverse()
+        dt = datetime.datetime(*dt).strftime("%Y-%m-%d %H:%M:%S")
+
+        desc = article.find_element(By.CLASS_NAME, "article-card__body__txt").text
+
+        parsedArticles.append(new_article(
+            image=img.get_property("src"), pubDate=dt,
+            title=title, link=link.get_property('href'),
+            description=desc, language=lang
         ))
 
     driver.quit()
