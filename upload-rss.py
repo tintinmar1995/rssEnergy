@@ -2,6 +2,8 @@ import requests
 import yaml
 import os
 
+from rssEnergy import utils
+
 with open('./config.yaml', encoding="utf-8") as f:
     cfg = yaml.safe_load(f)
     url = cfg['url']
@@ -11,14 +13,17 @@ with open('./config.yaml', encoding="utf-8") as f:
 with open('./feeds.yaml', encoding="utf-8") as f:
     feeds = yaml.safe_load(f)
 
+os.makedirs('./scanned', exist_ok=True)
 for feed, args in feeds.items():
     if args.get('enabled', False):
         
         with open(os.path.join('./scanned', feed + '.yaml'), 'r', encoding='utf-8') as f:
             articles = yaml.safe_load(f)
 
+        articles['articles'] = utils.remove_duplicates(articles['articles'], "guid")
+
         for a in articles['articles']:
-            a['pubDate'] = a['pubDate'].strftime("%Y-%m-%d %H:%M:%S")
+            a['pubDate'] = a['pubDate']
             a['source_id'] = feed
 
         data = {
