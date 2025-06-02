@@ -4,36 +4,65 @@ rte-actualite:
   img: https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/RTE_logo.svg/180px-RTE_logo.svg.png
   name: RTE Actualité
   parsers: rte_actualites
+  container_class: "result-container"
+  article_class: "a"
+  title_class: "read-more-title"
+  date_class: "file-date"
+  img_class: "img"
+  link_class: "a"
+  lang: "fr_FR"
+
 rte-wiki:
   enabled: false
   url: https://www.rte-france.com/wiki-energie/articles
   name: RTE Wiki Energie
   img: https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/RTE_logo.svg/180px-RTE_logo.svg.png
+
 iea:
   enabled: true
   url: https://www.iea.org/news
   name: IEA
   parsers: iea_news
   img: https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/International_Energy_Agency_%28IEA%29_logo.svg/330px-International_Energy_Agency_%28IEA%29_logo.svg.png
+  container_class: "o-layout__main"
+  article_class: "article"
+  title_class: "m-news-detailed-listing__title"
+  date_class: "m-news-detailed-listing__date"
+  img_class: "img"
+  link_class: "m-news-detailed-listing__link"
+  lang: "en_UK"
+
 enedis:
   enabled: false
   name: Enedis
   url: https://www.enedis.fr/presse
   img: https://www.enedis.fr/themes/custom/enedis_theme/favicon.ico
+
 enedis-odte:
   enabled: true
   name: Observatoire Français de la Transition Ecologique - Enedis
   parsers: enedis_odte
   url: https://observatoire.enedis.fr/tous-les-articles
   img: https://www.enedis.fr/themes/custom/enedis_theme/favicon.ico
+  container_class: "views-infinite-scroll-content-wrapper"
+  article_class: "views-row"
+  title_class: "article-card__body__title"
+  date_class: "article-card__body__date"
+  img_class: "img"
+  link_class: "a"
+  desc_class: "article-card__body__txt"
+  lang: "fr_FR"
+
 cre:
   enabled: false
   name: Commission de Régulation de l'Energie
   url: https://www.cre.fr/actualites/toute-lactualite.html
+
 energie-mediateur:
   enabled: false
   name: Médiateur National de l'Energie
   url: https://www.energie-mediateur.fr/le-mediateur/actualites/revue-de-presse/
+
 engie:
   enabled: false
   url: https://newsroom.engie.com/news/
