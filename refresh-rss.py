@@ -23,7 +23,7 @@ for feed, args in feeds.items():
                 'img': args.get('img', None),
                 'name' : args['name'],
                 'url': args['url'],
-                'articles': getattr(parsers, args['parsers'])(drv)
+                'articles': scrape_articles(driver, args)
             }
 
             with open(os.path.join('./scanned', feed + '.yaml'), 'w', encoding='utf-8') as f:
