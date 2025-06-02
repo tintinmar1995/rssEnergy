@@ -27,9 +27,11 @@ enedis-odte:
   url: https://observatoire.enedis.fr/tous-les-articles
   img: https://www.enedis.fr/themes/custom/enedis_theme/favicon.ico
 cre:
-  enabled: false
+  enabled: true
   name: Commission de Régulation de l'Energie
   url: https://www.cre.fr/actualites/toute-lactualite.html
+  parsers: cre_actualites
+  img: https://www.cre.fr/_assets/eee83a27e1e6e241ed7098a5f815474c/Frontend/assets/static/logo-cre.svg
 energie-mediateur:
   enabled: false
   name: Médiateur National de l'Energie
