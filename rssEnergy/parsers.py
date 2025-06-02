@@ -41,9 +41,43 @@ def iea_news(driver):
             category=tag, image=img, pubDate=dt, title=title, link=link
         ))
 
-    driver.quit()
     return parsedArticles
 
+
+def cre_actualites(driver, lang="fr-FR"):
+
+    driver.get("https://www.cre.fr/actualites/toute-lactualite.html")
+    driver.find_element(By.CLASS_NAME, "orejime-Notice-saveButton").click()
+
+    articlesContainer = driver.find_element(By.ID, "tx-solr-results")
+    articles = articlesContainer.find_elements(By.TAG_NAME, "li")
+
+    parsedArticles = list()
+    for article in articles:
+
+        img = article.find_element(By.TAG_NAME, "img").get_property("src")
+        title = article.find_element(By.CLASS_NAME, "card-title")
+        link = title.find_element(By.TAG_NAME, "a").get_property('href')
+        title = title.text
+        desc = title
+        tag = article.find_element(By.CLASS_NAME, "card-labels").text.replace(' ', '/')
+
+        try:
+            dt = article.find_element(By.TAG_NAME, "time").text.split('/')
+            dt.reverse()
+            dt = datetime.datetime(*[
+                int(i) for i in dt if len(i) > 0
+            ]).strftime("%Y-%m-%d %H:%M:%S")
+        except Exception:
+            dt = None
+
+        parsedArticles.append(new_article(
+            image=img, pubDate=dt, title=title,
+            link=link, description=desc, language=lang,
+            category=tag
+        ))     
+
+    return parsedArticles
 
 
 def rte_actualites(driver):
@@ -76,7 +110,6 @@ def rte_actualites(driver):
             title=title.text, link=article.get_property('href')
         ))
 
-    driver.quit()
     return parsedArticles
 
 
@@ -115,5 +148,4 @@ def enedis_odte(driver, lang = 'fr_FR'):
             description=desc, language=lang
         ))
 
-    driver.quit()
     return parsedArticles

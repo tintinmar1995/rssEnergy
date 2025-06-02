@@ -1,6 +1,7 @@
 import requests
 import yaml
 import os
+import json
 
 from rssEnergy import utils
 
@@ -16,7 +17,8 @@ with open('./feeds.yaml', encoding="utf-8") as f:
 os.makedirs('./scanned', exist_ok=True)
 for feed, args in feeds.items():
     if args.get('enabled', False):
-        
+        print(args.get('name', feed), '...')
+
         with open(os.path.join('./scanned', feed + '.yaml'), 'r', encoding='utf-8') as f:
             articles = yaml.safe_load(f)
 
@@ -37,8 +39,11 @@ for feed, args in feeds.items():
         response = requests.post(url + feed, json=data, auth=requests.auth.HTTPBasicAuth(usr, pwd))
 
         # Affichage de la réponse
-        print("Statut de la réponse:", response.status_code)
-        print("Contenu de la réponse:", response.content)
+        status = response.status_code
+        response = json.loads(response.content.decode())
+        print('->', status, response['message'])
+        print('-> Insertion ', response['inserted'])
+        print('-> Existing ', response['existing'], '\n')
 
     else:
-        print(args.get('name', feed), ': Disabled !')
+        print(args.get('name', feed), ': Disabled!\n')
