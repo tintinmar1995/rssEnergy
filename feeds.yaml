@@ -42,3 +42,6 @@ engie:
 france-renouvelables:
   enabled: false
   url: https://www.france-renouvelables.fr/actualites/
+agence-ore:
+  enabled: false
+  url: https://www.agenceore.fr/publications-actualites
