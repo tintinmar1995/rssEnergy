@@ -8,9 +8,11 @@ from rssEnergy import parsers
 queries = [
     'electricite hydrogene',
     'electricite rte france',
-    'électricité site:lesechos.fr',
+    'electricite lesechos.fr',
     'stockage électrique batterie'
-    'electricite rte france'
+    'electricite rte france',
+    'prix spot négatif énergie',
+    'production photovoltaïque éolien'
 ]
 
 with open('./config.yaml', encoding="utf-8") as f:
@@ -28,7 +30,12 @@ if proxy is not None:
     proxies = {'http': proxy, 'https': proxy}
 
 for q in queries:
-    articles = engine.news(q)
+    try:
+        articles = engine.news(q)
+    except ddgs.exceptions.DDGSException:
+        print('No result for query : ', q, '\n')
+        continue 
+
     articles = [
         parsers.new_article(
             category=None,
