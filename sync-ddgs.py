@@ -15,10 +15,14 @@ with open('./config.yaml', encoding="utf-8") as f:
     url = cfg['url']
     usr = cfg['usr']
     pwd = cfg['pwd']
-    proxy = cfg['proxy']
+    proxy = cfg.get('proxy', 'None')
 
 engine = ddgs.DDGS(proxy=proxy, verify=False)
 feed = "ddgs"
+
+proxies = None
+if proxy is not None:
+    proxies = {'http': proxy, 'https': proxy}
 
 for q in queries:
     articles = engine.news(q)
@@ -45,7 +49,11 @@ for q in queries:
     }
 
     # Envoi de la requête POST
-    response = requests.post(url + feed, json=data, auth=requests.auth.HTTPBasicAuth(usr, pwd))
+    response = requests.post(
+        url + feed, json=data,
+        auth=requests.auth.HTTPBasicAuth(usr, pwd),
+        proxies=proxies
+    )
 
     # Affichage de la réponse
     status = response.status_code
