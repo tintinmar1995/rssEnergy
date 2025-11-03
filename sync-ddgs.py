@@ -7,7 +7,8 @@ from rssEnergy import parsers
 
 queries = [
     # 'electricite hydrogene',
-    'electricite rte france'
+    'electricite rte france',
+    'électricité site:lesechos.fr'
 ]
 
 with open('./config.yaml', encoding="utf-8") as f:
