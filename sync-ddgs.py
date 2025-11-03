@@ -10,6 +10,7 @@ queries = [
     'electricite rte france',
     'électricité site:lesechos.fr',
     'stockage électrique batterie'
+    'electricite rte france'
 ]
 
 with open('./config.yaml', encoding="utf-8") as f:
@@ -38,7 +39,7 @@ for q in queries:
             source_id=a['source'],
             description=a['body'],
             language='None',
-            copyright=a['date'],
+            copyright=a['source'],
             pubDate=a['date'])
         for a in articles
     ]
