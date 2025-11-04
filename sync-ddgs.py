@@ -9,6 +9,7 @@ queries = [
     'electricite hydrogene',
     'electricite rte france',
     'electricite lesechos.fr',
+    'data center france',
     'stockage électrique batterie'
     'electricite rte france',
     'prix spot négatif énergie',
