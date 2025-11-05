@@ -5,16 +5,19 @@ import yaml
 
 from rssEnergy import parsers
 
-queries = [
-    'electricite hydrogene',
-    'electricite rte france',
-    'electricite lesechos.fr',
-    'data center france',
-    'stockage électrique batterie'
-    'electricite rte france',
-    'prix spot négatif énergie',
-    'production photovoltaïque éolien'
-]
+
+queries = {
+    'electricite hydrogene': ['H2', 'EnR'],
+    'electricite rte france': 'RTE',
+    'electricite lesechos.fr': None,
+    'data center france': "Nouveaux usages",
+    'stockage électrique batterie': 'Stockage',
+    'prix spot négatif énergie': 'EPEX-Spot',
+    'EPEX Spot': 'EPEX-Spot',
+    'marché de gros electricite': 'EPEX-Spot',
+    "prix de l'électricité": 'EPEX-Spot',
+    'production photovoltaïque éolien': ['PV','Eole','EnR']
+}
 
 with open('./config.yaml', encoding="utf-8") as f:
     cfg = yaml.safe_load(f)
@@ -23,6 +26,7 @@ with open('./config.yaml', encoding="utf-8") as f:
     pwd = cfg['pwd']
     proxy = cfg.get('proxy', 'None')
 
+# TODO: Also search news with Google News
 engine = ddgs.DDGS(proxy=proxy, verify=False)
 feed = "ddgs"
 
@@ -39,13 +43,13 @@ for q in queries:
 
     articles = [
         parsers.new_article(
-            category=None,
+            category=queries[q],
             image=a['image'],
             link=a['url'],
             title=a['title'],
             author=a['source'],
             source_id=a['source'],
-            description=a['body'],
+            description='(' + a['source'] + ") " + a['body'],
             language='None',
             copyright=a['source'],
             pubDate=a['date'])
