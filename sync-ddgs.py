@@ -7,16 +7,17 @@ from rssEnergy import parsers
 
 
 queries = {
-    'electricite hydrogene': ['H2', 'EnR'],
+    'electricite hydrogene': 'H2, EnR',
     'electricite rte france': 'RTE',
     'electricite lesechos.fr': None,
+    "agence internationale énergie -atomique -aiea": None,
     'data center france': "Nouveaux usages",
     'stockage électrique batterie': 'Stockage',
     'prix spot négatif énergie': 'EPEX-Spot',
     'EPEX Spot': 'EPEX-Spot',
     'marché de gros electricite': 'EPEX-Spot',
     "prix de l'électricité": 'EPEX-Spot',
-    'production photovoltaïque éolien': ['PV','Eole','EnR']
+    'production photovoltaïque éolien': 'PV, Eole, EnR'
 }
 
 with open('./config.yaml', encoding="utf-8") as f:
@@ -26,8 +27,6 @@ with open('./config.yaml', encoding="utf-8") as f:
     pwd = cfg['pwd']
     proxy = cfg.get('proxy', 'None')
 
-# TODO: Also search news with Google News
-engine = ddgs.DDGS(proxy=proxy, verify=False)
 feed = "ddgs"
 
 proxies = None
@@ -35,29 +34,10 @@ if proxy is not None:
     proxies = {'http': proxy, 'https': proxy}
 
 for q in queries:
-    try:
-        articles = engine.news(q)
-    except ddgs.exceptions.DDGSException:
-        print('No result for query : ', q, '\n')
-        continue 
-
-    articles = [
-        parsers.new_article(
-            category=queries[q],
-            image=a['image'],
-            link=a['url'],
-            title=a['title'],
-            author=a['source'],
-            source_id=a['source'],
-            description='(' + a['source'] + ") " + a['body'],
-            language='None',
-            copyright=a['source'],
-            pubDate=a['date'])
-        for a in articles
-    ]
 
     data = {
-        "articles": articles,
+        # TODO: Also search news with Google News
+        "articles": parsers.duck(q, queries[q], proxy),
         "source_name": "ddgs",
         "source_url": "https://duckduckgo.com",
         "source_image_url": ""
