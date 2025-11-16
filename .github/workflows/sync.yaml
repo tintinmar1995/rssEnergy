@@ -19,17 +19,11 @@ jobs:
           pip install -r requirements.txt
 
       - name: Générer config.yaml à partir des variables d'environnement
-        run: |
-          cat > config.yaml <<'YAML'
-          usr: "${USR}"
-          url: "${URL}"
-          pwd: "${PWD}"
-          YAML
-        env:
-          USR: ${{ secrets.USR }}
-          URL: ${{ secrets.URL }}
-          PWD: ${{ secrets.PWD }}
-
+        run: |      
+          echo "usr:${{ secrets.USR }}" >> config.yaml
+          echo "url:${{ secrets.URL }}" >> config.yaml
+          echo "pwd:${{ secrets.PWD }}" >> config.yaml
+        
       - name: Exécuter le script
         run: |
           python sync-ddgs.py
