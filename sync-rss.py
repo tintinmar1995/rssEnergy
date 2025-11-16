@@ -11,7 +11,7 @@ with open('./config.yaml', encoding="utf-8") as f:
     url = cfg['url']
     usr = cfg['usr']
     pwd = cfg['pwd']
-    proxy = cfg.get('proxy', 'None')
+    proxy = cfg.get('proxy', None)
 
 with open('./feeds.yaml', encoding="utf-8") as f:
     feeds = yaml.safe_load(f)
