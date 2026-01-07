@@ -1,10 +1,11 @@
 import bs4
 import requests
-import locale
 import calendar
 import datetime
 import hashlib
 import ddgs
+
+from . import utils
 
 
 def new_article(**kw):
@@ -62,10 +63,7 @@ def iea_news(proxy=None):
             img = article.find('img').attrs['src']
             dt = article.find('div', {'class': 'm-news-detailed-listing__date'}).text.strip()
             title = article.find("h5", {'class': "m-news-detailed-listing__title"}).span.text
-
-            locale.setlocale(locale.LC_ALL, 'en_UK')
-            dt = datetime.datetime.strptime(dt, "%d %B %Y").strftime("%Y-%m-%d %H:%M:%S")
-
+            dt = datetime.datetime.strptime(utils.replace_month(dt), "%d %m %Y").strftime("%Y-%m-%d %H:%M:%S")
             parsedArticles.append(new_article(
                 category=tag, image=img, pubDate=dt, title=title, link=link
             ))
@@ -106,7 +104,6 @@ def cre_actualites(proxy=None):
 
 def rte_actualites(proxy=None):
 
-    locale.setlocale(locale.LC_ALL, 'fr_FR')
     months = {
         calendar.month_name[month_idx].upper():
         month_idx for month_idx in range(1,13)
@@ -143,7 +140,6 @@ def enedis_odte(proxy):
         proxies = {'http': proxy, 'https': proxy}
 
     lang = 'fr_FR'
-    locale.setlocale(locale.LC_ALL, lang)
     months = {
         calendar.month_name[month_idx].lower():
         month_idx for month_idx in range(1,13)
@@ -178,3 +174,17 @@ def enedis_odte(proxy):
             pass
 
     return parsedArticles
+
+
+def sdes(proxy=None):
+
+
+    proxies = None
+    if proxy is not None:
+        proxies = {'http': proxy, 'https': proxy}
+
+    response = requests.get("https://www.statistiques.developpement-durable.gouv.fr/actualites", proxies=proxies)
+    page = bs4.BeautifulSoup(response.text, 'html5lib')
+    articles = page.find_all('a', {'class': 'm-news-detailed-listing__link'})
+
+    return []

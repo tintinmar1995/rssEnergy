@@ -32,3 +32,23 @@ def remove_duplicates(dict_list, key):
                 unique_dicts.append(d)
 
     return unique_dicts
+
+
+def replace_month(s):
+    return (
+        s
+        .lower()
+        .replace('january', '01').replace('janvier', '01')
+        .replace('february', '01').replace('février', '01')
+        .replace('march', '01').replace('mars', '01')
+        .replace('april', '01').replace('avril', '01')
+        .replace('may', '01').replace('mai', '01')
+        .replace('june', '01').replace('juin', '01')
+        .replace('july', '01').replace('juillet', '01')
+        .replace('august', '01').replace('août', '01')
+        .replace('september', '01').replace('septembre', '01')
+        .replace('october', '01').replace('octobre', '01')
+        .replace('november', '01').replace('novembre', '01')
+        .replace('december', '01').replace('décembre', '01')
+    )
+
