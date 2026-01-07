@@ -4,11 +4,13 @@ rte-actualite:
   img: https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/RTE_logo.svg/180px-RTE_logo.svg.png
   name: RTE Actualité
   parsers: rte_actualites
+  debug: Difficile à scraper car les articles arrivent plus tard dans le cycle de vie
 rte-wiki:
   enabled: false
   url: https://www.rte-france.com/wiki-energie/articles
   name: RTE Wiki Energie
   img: https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/RTE_logo.svg/180px-RTE_logo.svg.png
+  debug: Difficile à scraper car les articles arrivent plus tard dans le cycle de vie
 iea:
   enabled: true
   url: https://www.iea.org/news
@@ -42,12 +44,16 @@ energie-mediateur:
   enabled: false
   name: Médiateur National de l'Energie
   url: https://www.energie-mediateur.fr/le-mediateur/actualites/revue-de-presse/
+  debug: todo
 engie:
   enabled: false
   url: https://newsroom.engie.com/news/
+  debug: todo
 france-renouvelables:
   enabled: false
   url: https://www.france-renouvelables.fr/actualites/
+  debug: todo
 agence-ore:
   enabled: false
   url: https://www.agenceore.fr/publications-actualites
+  debug: todo
