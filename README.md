@@ -9,9 +9,12 @@ RSS-Energy est un outil en cours de développement. Il permet de :
 Every source in one channel :
 - https://mmasson.fr/toolbox/rss-energy.php
 
-Choose the channel you want : 
-- https://mmasson.fr/toolbox/rss-energy.php?source_id=iea
-- https://mmasson.fr/toolbox/rss-energy.php?source_id=rte-actualite
+Choose the channel you want :
+- [Commission de Régulation de l'Energie](https://mmasson.fr/toolbox/rss-energy.php?source_id=cre) 
+- [IEA](https://mmasson.fr/toolbox/rss-energy.php?source_id=iea)
+- [Observatoire Français de la Transition Écologique](https://mmasson.fr/toolbox/rss-energy.php?source_id=enedis-odte)
+- [RTE Actualité](https://mmasson.fr/toolbox/rss-energy.php?source_id=rte-actualite)
+- [Statistiques Développement Durable France](https://mmasson.fr/toolbox/rss-energy.php?source_id=sdes)
 
 ## Install 
 
