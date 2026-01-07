@@ -17,7 +17,9 @@ queries = {
     'EPEX Spot': 'EPEX-Spot',
     'marché de gros electricite': 'EPEX-Spot',
     "prix de l'électricité": 'EPEX-Spot',
-    'production photovoltaïque éolien': 'PV, Eole, EnR'
+    'production photovoltaïque éolien': 'PV, Eole, EnR',
+    'production énergie solaire': 'PV, Eole, EnR',
+    'production énergie éolienne': 'PV, Eole, EnR'
 }
 
 with open('./config.yaml', encoding="utf-8") as f:
