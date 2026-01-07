@@ -178,13 +178,44 @@ def enedis_odte(proxy):
 
 def sdes(proxy=None):
 
-
     proxies = None
     if proxy is not None:
         proxies = {'http': proxy, 'https': proxy}
 
+    lang="fr-FR"
     response = requests.get("https://www.statistiques.developpement-durable.gouv.fr/actualites", proxies=proxies)
     page = bs4.BeautifulSoup(response.text, 'html5lib')
-    articles = page.find_all('a', {'class': 'm-news-detailed-listing__link'})
+    articles = page.find_all('article', {'role': "article"})
+    parsedArticles = list()
+    for article in articles:
+        try:
+            img = article.find('img')
+            if img is None:
+                # il n'y a pas tout le temps d'image
+                img = ''
+            else:
+                img = img.attrs['src']
 
-    return []
+            link = article.find('a', {'rel': 'bookmark'}).attrs['href']
+            title = article.find('span').text 
+            desc = article.find("div", {'class': 'accroche'})
+            
+            if desc is None:
+                # il n'y pas tout le temps de description
+                desc = ''
+            else:
+                desc = desc.find("div", {'class': 'field--item'}).text
+            
+            tag = article.find("div", {'class': 'field--item'}).text
+
+            dt = article.find("div", {'class': 'date'}).text
+            dt = datetime.datetime.strptime(dt, "%d/%m/%Y").strftime("%Y-%m-%d %H:%M:%S")
+            parsedArticles.append(new_article(
+                category=tag, image=img, pubDate=dt, title=title, link=link,
+                description=desc, language=lang, author="SDES"
+            ))
+
+        except Exception as err:
+            pass
+
+    return parsedArticles

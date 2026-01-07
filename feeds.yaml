@@ -20,6 +20,12 @@ enedis:
   name: Enedis
   url: https://www.enedis.fr/presse
   img: https://www.enedis.fr/themes/custom/enedis_theme/favicon.ico
+sdes:
+  enabled: true
+  name: sdes
+  url: https://www.statistiques.developpement-durable.gouv.fr/actualites
+  img: https://www.statistiques.developpement-durable.gouv.fr/themes/custom/sdes/images/logo/logo_header_rvb.png
+  parsers: sdes
 enedis-odte:
   enabled: true
   name: Observatoire Français de la Transition Ecologique - Enedis
