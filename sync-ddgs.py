@@ -7,6 +7,7 @@ from rssEnergy import parsers
 
 
 queries = {
+    'epr Flamanville': 'Nucléaire, EPR',
     'electricite hydrogene': 'H2, EnR',
     'electricite rte france': 'RTE',
     'electricite lesechos.fr': None,
