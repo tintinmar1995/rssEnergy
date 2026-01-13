@@ -36,7 +36,7 @@ def duck(q, tags, proxy):
                 language='None',
                 copyright=a['source'],
                 pubDate=a['date'])
-            for a in articles
+            for a in articles if not a['url'].startswith('https://www.msn.com')
         ]
 
     except ddgs.exceptions.DDGSException:
