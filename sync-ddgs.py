@@ -20,7 +20,8 @@ queries = {
     "prix de l'électricité": 'EPEX-Spot',
     'production photovoltaïque éolien': 'PV, Eole, EnR',
     'production énergie solaire': 'PV, Eole, EnR',
-    'production énergie éolienne': 'PV, Eole, EnR'
+    'production énergie éolienne': 'PV, Eole, EnR',
+    'agrivoltaisme france': 'PV, EnR'
 }
 
 with open('./config.yaml', encoding="utf-8") as f:
