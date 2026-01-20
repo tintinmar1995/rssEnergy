@@ -6,14 +6,14 @@ import json
 
 from rssEnergy import parsers, utils
 
-with open('./config.yaml', encoding="utf-8") as f:
+with open('./config/credentials.yaml', encoding="utf-8") as f:
     cfg = yaml.safe_load(f)
     url = cfg['url']
     usr = cfg['usr']
     pwd = cfg['pwd']
     proxy = cfg.get('proxy', None)
 
-with open('./feeds.yaml', encoding="utf-8") as f:
+with open('./config/rss-feeds.yaml', encoding="utf-8") as f:
     feeds = yaml.safe_load(f)
 
 os.makedirs('./scanned', exist_ok=True)

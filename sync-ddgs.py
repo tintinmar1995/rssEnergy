@@ -6,41 +6,28 @@ import yaml
 from rssEnergy import parsers
 
 
-queries = {
-    'epr Flamanville': 'Nucléaire, EPR',
-    'electricite hydrogene': 'H2, EnR',
-    'electricite rte france': 'RTE',
-    'electricite lesechos.fr': None,
-    "agence internationale énergie -atomique -aiea": None,
-    'data center france': "Nouveaux usages",
-    'stockage électrique batterie': 'Stockage',
-    'prix spot négatif énergie': 'EPEX-Spot',
-    'EPEX Spot': 'EPEX-Spot',
-    'marché de gros electricite': 'EPEX-Spot',
-    "prix de l'électricité": 'EPEX-Spot',
-    'production photovoltaïque éolien': 'PV, Eole, EnR',
-    'production énergie solaire': 'PV, Eole, EnR',
-    'production énergie éolienne': 'PV, Eole, EnR',
-    'agrivoltaisme france': 'PV, EnR'
-}
+with open('./config/search-queries.yaml', encoding="utf-8") as f:
+    queries = yaml.safe_load(f)
+    queries = {k['q']: k['tag'] for k in queries}
 
-with open('./config.yaml', encoding="utf-8") as f:
+
+with open('./config/credentials.yaml', encoding="utf-8") as f:
     cfg = yaml.safe_load(f)
     url = cfg['url']
     usr = cfg['usr']
     pwd = cfg['pwd']
     proxy = cfg.get('proxy', None)
 
-feed = "ddgs"
 
 proxies = None
 if proxy is not None:
     proxies = {'http': proxy, 'https': proxy}
 
+
+feed = "ddgs"
 for q in queries:
 
     data = {
-        # TODO: Also search news with Google News
         "articles": parsers.duck(q, queries[q], proxy),
         "source_name": "ddgs",
         "source_url": "https://duckduckgo.com",

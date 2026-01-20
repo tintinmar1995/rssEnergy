@@ -20,9 +20,9 @@ jobs:
 
       - name: Générer config.yaml à partir des variables d'environnement
         run: |      
-          echo "usr: \"${{ secrets.USR }}\"" > config.yaml
-          echo "url: \"${{ secrets.URL }}\"" >> config.yaml
-          echo "pwd: \"${{ secrets.PWD }}\"" >> config.yaml
+          echo "usr: \"${{ secrets.USR }}\"" > config/credentials.yaml
+          echo "url: \"${{ secrets.URL }}\"" >> config/credentials.yaml
+          echo "pwd: \"${{ secrets.PWD }}\"" >> config/credentials.yaml
 
       - name: Exécuter le script
         run: |
