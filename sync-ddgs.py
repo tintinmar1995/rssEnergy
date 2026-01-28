@@ -7,6 +7,7 @@ from rssEnergy import parsers
 
 
 queries = {
+    'orano framatome rosatome CNNC CGN SPIC Huaneng' : 'Nucléaire',
     'epr Flamanville': 'Nucléaire, EPR',
     'electricite hydrogene': 'H2, EnR',
     'electricite rte france': 'RTE',
