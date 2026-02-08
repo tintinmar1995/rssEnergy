@@ -1,5 +1,32 @@
 import os
 import time
+import json
+import requests
+
+
+def push_articles(url, feed, data, usr, pwd, proxies):
+    # Envoi de la requête POST
+    response = requests.post(
+        url + feed, json=data,
+        auth=requests.auth.HTTPBasicAuth(usr, pwd),
+        proxies=proxies
+    )
+
+    # Affichage de la réponse
+    status = response.status_code
+    response = json.loads(response.content.decode())
+
+    return status, response
+
+
+def push_results(status, response):
+    print('->', status, response['message'])
+    print('-> Insertion ', response['inserted'])
+    print('-> Existing ', response['existing'], '\n')
+
+
+def path_dump_articles(feed):
+    return os.path.join('./scanned', feed + '.yaml')
 
 
 def is_file_modified_recently(file_path):

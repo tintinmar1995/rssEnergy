@@ -2,7 +2,7 @@ import requests
 import json
 import yaml 
 
-from rssEnergy import parsers
+from rssEnergy import parsers, utils
 
 
 with open('./config/search-queries.yaml', encoding="utf-8") as f:
@@ -33,16 +33,5 @@ for q in queries:
         "source_image_url": ""
     }
 
-    # Envoi de la requête POST
-    response = requests.post(
-        url + feed, json=data,
-        auth=requests.auth.HTTPBasicAuth(usr, pwd),
-        proxies=proxies
-    )
-
-    # Affichage de la réponse
-    status = response.status_code
-    response = json.loads(response.content.decode())
-    print('->', status, response['message'])
-    print('-> Insertion ', response['inserted'])
-    print('-> Existing ', response['existing'], '\n')
+    status, response = utils.push_articles(url, feed, data, usr, pwd, proxies)
+    utils.push_results(status, response)

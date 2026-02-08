@@ -34,7 +34,7 @@ for feed, args in feeds.items():
                     'articles': getattr(parsers, args['parsers'])(proxy)
                 }
 
-                with open(os.path.join('./scanned', feed + '.yaml'), 'w', encoding='utf-8') as f:
+                with open(utils.path_dump_articles(feed), 'w', encoding='utf-8') as f:
                     yaml.dump(articles, f)
 
             except Exception:
@@ -55,11 +55,10 @@ for feed, args in feeds.items():
     if args.get('enabled', False):
         print(args.get('name', feed), '...')
 
-        path_articles = os.path.join('./scanned', feed + '.yaml')
-        if not os.path.isfile(path_articles):
+        if not os.path.isfile(utils.path_dump_articles(feed)):
             continue
 
-        with open(path_articles, 'r', encoding='utf-8') as f:
+        with open(utils.path_dump_articles(feed), 'r', encoding='utf-8') as f:
             articles = yaml.safe_load(f)
 
         articles['articles'] = utils.remove_duplicates(articles['articles'], "guid")
@@ -75,19 +74,8 @@ for feed, args in feeds.items():
             "source_image_url": articles['img']
         }
 
-        # Envoi de la requête POST
-        response = requests.post(
-            url + feed, json=data,
-            proxies=proxies,
-            auth=requests.auth.HTTPBasicAuth(usr, pwd)
-        )
-
-        # Affichage de la réponse
-        status = response.status_code
-        response = json.loads(response.content.decode())
-        print('->', status, response['message'])
-        print('-> Insertion ', response['inserted'])
-        print('-> Existing ', response['existing'], '\n')
+        status, response = utils.push_articles(url, feed, data, usr, pwd, proxies)
+        utils.push_results(status, response)
 
     else:
         print(args.get('name', feed), ': Disabled!\n')
