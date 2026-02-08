@@ -25,16 +25,21 @@ for feed, args in feeds.items():
             print(args.get('name', feed), ': Skipped!')   
 
         else:
-            print(args.get('name', feed), ': Scanning..')
-            articles = {
-                'img': args.get('img', None),
-                'name' : args['name'],
-                'url': args['url'],
-                'articles': getattr(parsers, args['parsers'])(proxy)
-            }
 
-            with open(os.path.join('./scanned', feed + '.yaml'), 'w', encoding='utf-8') as f:
-                yaml.dump(articles, f)
+            try:
+                print(args.get('name', feed), ': Scanning..')
+                articles = {
+                    'img': args.get('img', None),
+                    'name' : args['name'],
+                    'url': args['url'],
+                    'articles': getattr(parsers, args['parsers'])(proxy)
+                }
+
+                with open(os.path.join('./scanned', feed + '.yaml'), 'w', encoding='utf-8') as f:
+                    yaml.dump(articles, f)
+
+            except Exception:
+                print(args.get('name', feed), ': Failed to scan and export')
 
     else:
         print(args.get('name', feed), ': Disabled !')
@@ -43,7 +48,7 @@ proxies = None
 if proxy is not None:
     proxies = {'http': proxy, 'https': proxy}
 
-with open('./feeds.yaml', encoding="utf-8") as f:
+with open('./config/rss-feeds.yaml', encoding="utf-8") as f:
     feeds = yaml.safe_load(f)
 
 os.makedirs('./scanned', exist_ok=True)

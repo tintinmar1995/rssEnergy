@@ -1,6 +1,5 @@
 import requests
 import json
-import ddgs
 import yaml 
 
 from rssEnergy import parsers
