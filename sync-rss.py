@@ -1,6 +1,5 @@
 import yaml
 import os
-import time
 import requests
 import json
 
@@ -56,7 +55,11 @@ for feed, args in feeds.items():
     if args.get('enabled', False):
         print(args.get('name', feed), '...')
 
-        with open(os.path.join('./scanned', feed + '.yaml'), 'r', encoding='utf-8') as f:
+        path_articles = os.path.join('./scanned', feed + '.yaml')
+        if not os.path.isfile(path_articles):
+            continue
+
+        with open(path_articles, 'r', encoding='utf-8') as f:
             articles = yaml.safe_load(f)
 
         articles['articles'] = utils.remove_duplicates(articles['articles'], "guid")
