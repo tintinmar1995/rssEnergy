@@ -10,6 +10,10 @@ with open('./config/search-queries.yaml', encoding="utf-8") as f:
     queries = {k['q']: k['tag'] for k in queries}
 
 
+with open('./config/search-params.yaml', encoding="utf-8") as f:
+    params = yaml.safe_load(f)
+
+
 with open('./config/credentials.yaml', encoding="utf-8") as f:
     cfg = yaml.safe_load(f)
     url = cfg['url']
@@ -27,7 +31,7 @@ feed = "ddgs"
 for q in queries:
 
     data = {
-        "articles": parsers.duck(q, queries[q], proxy),
+        "articles": parsers.duck(q, queries[q], proxy, params["exclusion"]),
         "source_name": "ddgs",
         "source_url": "https://duckduckgo.com",
         "source_image_url": ""

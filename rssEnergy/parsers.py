@@ -18,13 +18,14 @@ def new_article(**kw):
     return out
 
 
-def duck(q, tags, proxy):
+def duck(q, tags, proxy, exclusion=[]):
     engine = ddgs.DDGS(proxy=proxy, verify=False)
 
     def exclusion_rule(a, thshld_days = 30):
         out = False
         out = out or ((datetime.datetime.now() - datetime.datetime.strptime(a['date'][:10], "%Y-%m-%d")).days > thshld_days)
         out = out or a['url'].startswith('https://www.msn.com')
+        out = out or any([word in a['title'] for word in exclusion])
         return out
 
     print(q)
