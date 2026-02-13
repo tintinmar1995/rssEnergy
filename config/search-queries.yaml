@@ -1,6 +1,6 @@
 - q: stations de transfert énergie par pompage
   tag: EnR
-- q: orano framatome rosatome CNNC CGN SPIC Huaneng
+- q: orano framatome rosatome
   tag: Nucléaire
 - q: epr Flamanville
   tag: Nucléaire, EPR
@@ -12,8 +12,8 @@
   tag: None
 - q: "agence internationale énergie -atomique -aiea"
   tag: None
-- q: data center france
-  tag: "Nouveaux usages"
+- q: "data center" france
+  tag: Nouveaux usages
 - q: stockage électrique batterie
   tag: Stockage
 - q: prix spot négatif énergie
@@ -22,7 +22,7 @@
   tag: EPEX-Spot
 - q: marché de gros electricite
   tag: EPEX-Spot
-- q: "prix de lélectricité"
+- q: prix de électricité
   tag: EPEX-Spot
 - q: production photovoltaïque éolien
   tag: PV, Eole, EnR
