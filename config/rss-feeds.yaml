@@ -1,5 +1,5 @@
 meteo-france:
-  enabled: false
+  enabled: true
   url: https://meteofrance.com/actualites/a-la-une
   img: https://grimms.fr/wp-content/uploads/2018/07/logo-meteo-france.png
   name: Météo-France
