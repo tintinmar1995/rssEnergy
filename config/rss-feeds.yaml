@@ -1,3 +1,9 @@
+meteo-france:
+  enabled: false
+  url: https://meteofrance.com/actualites/a-la-une
+  img: https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/RTE_logo.svg/180px-RTE_logo.svg.png
+  name: Météo-France
+  parsers: meteo_france
 rte-actualite:
   enabled: false
   url: https://www.rte-france.com/actualites

@@ -109,6 +109,34 @@ def cre_actualites(proxy=None):
     return parsedArticles
 
 
+def meteo_france(proxy=None):
+
+    proxies = None
+    if proxy is not None:
+        proxies = {'http': proxy, 'https': proxy}
+
+    response = requests.get("https://meteofrance.com/actualites/a-la-une", proxies=proxies)
+    page = bs4.BeautifulSoup(response.text, 'html5lib')
+    articles = page.find_all('article', {'class': 'article_content'})
+    parsedArticles = list()
+    for article in articles:
+        try:
+            url = 'https://meteofrance.com/' + article.find("a").attrs['href']
+            img = article.find('img').attrs['src']
+            desc = article.find('p', {'class': 'description'}).text
+            date = article.find('span', {'class': 'date'}).text
+            date = date.replace('\n', '').replace('\t', '')
+            title = article.find('span', {'class': 'field--name-title'}).text
+            dt = datetime.datetime.strptime(date, "%d/%m/%Y").strftime("%Y-%m-%d %H:%M:%S")
+            parsedArticles.append(new_article(
+                category='Meteo', image=img, pubDate=dt, title=title, link=url, description=desc
+            ))
+        except Exception as err:
+            print(err)
+
+    return parsedArticles
+
+
 def rte_actualites(proxy=None):
 
     months = {
