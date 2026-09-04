@@ -33,7 +33,8 @@ for feed, args in feeds.items():
                     'url': args['url'],
                     'articles': getattr(parsers, args['parsers'])(proxy)
                 }
-
+                print(f"... {len(articles['articles'])} articles found\n")
+                
                 with open(utils.path_dump_articles(feed), 'w', encoding='utf-8') as f:
                     yaml.dump(articles, f)
 

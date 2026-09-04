@@ -47,10 +47,11 @@ cre:
   parsers: cre_actualites
   img: https://www.cre.fr/_assets/eee83a27e1e6e241ed7098a5f815474c/Frontend/assets/static/logo-cre.svg
 energie-mediateur:
-  enabled: false
+  enabled: true
   name: Médiateur National de l'Energie
   url: https://www.energie-mediateur.fr/le-mediateur/actualites/revue-de-presse/
-  debug: todo
+  parsers: energie_mediateur
+  img: https://www.energie-mediateur.fr/wp-content/uploads/2020/12/cropped-new_favicon-32x32.png
 engie:
   enabled: false
   url: https://newsroom.engie.com/news/

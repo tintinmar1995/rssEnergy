@@ -254,3 +254,29 @@ def sdes(proxy=None):
             pass
 
     return parsedArticles
+
+
+def energie_mediateur(proxy=None):
+
+    proxies = None
+    if proxy is not None:
+        proxies = {'http': proxy, 'https': proxy}
+
+    response = requests.get("https://www.energie-mediateur.fr/le-mediateur/actualites/revue-de-presse/", proxies=proxies)
+    page = bs4.BeautifulSoup(response.text, 'html5lib')
+    articles = page.find_all('a', {'class': "media_item"})
+
+    parsedArticles = list()
+    for article in articles:
+        img = article.find('img').attrs['src']
+        link = article.attrs['href']
+        title = article.find('h3', {'class': 'media_titre'}).text 
+
+        dt = utils.replace_month(article.find("div", {'class': 'date'}).text)
+        dt = datetime.datetime.strptime(dt, "%d %m %Y").strftime("%Y-%m-%d %H:%M:%S")
+    
+        parsedArticles.append(new_article(
+            image=img, pubDate=dt, title=title, link=link
+        ))
+
+    return parsedArticles
