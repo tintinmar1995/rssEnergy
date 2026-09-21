@@ -280,3 +280,30 @@ def energie_mediateur(proxy=None):
         ))
 
     return parsedArticles
+
+
+def selectra(proxy=None):
+
+    proxies = None
+    if proxy is not None:
+        proxies = {'http': proxy, 'https': proxy}
+
+    response = requests.get("https://selectra.info/energie/actualites", proxies=proxies)
+    page = bs4.BeautifulSoup(response.text, 'html5lib')
+    articles = page.find_all('a', {'class': "items-start"})
+
+    parsedArticles = list()
+    for article in articles:
+        img = article.find('img')
+        img = img.attrs['src'] if img is not None else None
+        link = article.attrs['href']
+        title = article.find('h3', {'class': 'text-base'}).text.strip()
+
+        dt = utils.replace_month(article.find("time").text)
+        dt = datetime.datetime.strptime(dt, "%d %m %Y").strftime("%Y-%m-%d %H:%M:%S")
+        
+        parsedArticles.append(new_article(
+            image=img, pubDate=dt, title=title, link=link
+        ))
+
+    return parsedArticles

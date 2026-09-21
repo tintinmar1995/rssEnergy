@@ -4,6 +4,12 @@ meteo-france:
   img: https://grimms.fr/wp-content/uploads/2018/07/logo-meteo-france.png
   name: Météo-France
   parsers: meteo_france
+selectra:
+  enabled: true
+  url: https://selectra.info/energie/actualites
+  img: https://images.selectra.info/images/selectra.info/logo/logo.svg
+  name: Selectra
+  parsers: selectra
 rte-actualite:
   enabled: false
   url: https://www.rte-france.com/actualites
