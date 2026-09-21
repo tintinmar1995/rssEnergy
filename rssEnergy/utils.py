@@ -1,7 +1,29 @@
 import os
 import time
 import json
+import yaml
 import requests
+import argparse
+
+from pathlib import Path
+
+
+def parse_args() -> argparse.Namespace:
+    """
+    Parse les arguments de ligne de commande.
+    """
+
+    parser = argparse.ArgumentParser(
+        description="Collecte et publication d'articles RSS"
+    )
+
+    parser.add_argument(
+        "--offline",
+        action="store_true",
+        help="Scanne les flux sans publier les articles"
+    )
+
+    return parser.parse_args()
 
 
 def push_articles(url, feed, data, usr, pwd, proxies):
@@ -78,4 +100,34 @@ def replace_month(s):
         .replace('november', '11').replace('novembre', '11').replace('nov.', '11')
         .replace('december', '12').replace('décembre', '12').replace('déc.', '12')
     )
+
+
+def load_yaml(path: Path) -> dict:
+    """Charge un fichier YAML et retourne son contenu."""
+    with path.open(encoding="utf-8") as f:
+        return yaml.safe_load(f)
+
+
+def build_proxies(proxy: str | None) -> dict | None:
+    """Construit le dictionnaire proxy attendu par requests."""
+    if not proxy:
+        return None
+
+    return {
+        "http": proxy,
+        "https": proxy,
+    }
+
+
+def validate_feed(feed_id: str, config: dict) -> None:
+    """Vérifie la présence des champs obligatoires."""
+
+    required_keys = ["name", "url", "parsers"]
+
+    missing = [key for key in required_keys if key not in config]
+
+    if missing:
+        raise ValueError(
+            f"Feed '{feed_id}' : clés manquantes : {', '.join(missing)}"
+        )
 
