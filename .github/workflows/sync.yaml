@@ -26,5 +26,4 @@ jobs:
 
       - name: Exécuter le script
         run: |
-          python sync-ddgs.py
           python sync-rss.py
