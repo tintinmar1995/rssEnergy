@@ -180,7 +180,8 @@ for idx, article in filtered.iterrows():
         with cols[0]:
 
             if article.get("image"):
-                st.image(article["image"], use_container_width=True)
+                if not pd.isna(article.get("image")):
+                    st.image(article["image"], use_container_width=True)
 
         with cols[1]:
 
