@@ -114,11 +114,10 @@ def remove_duplicates(dict_list, key):
     unique_dicts = []
 
     for d in dict_list:
-        if key in d:
-            value = d[key]
-            if value not in seen:
-                seen.add(value)
-                unique_dicts.append(d)
+        value = d.get(key, None) if isinstance(d, dict) else getattr(d, key, None)
+        if value not in seen:
+            seen.add(value)
+            unique_dicts.append(d)
 
     return unique_dicts
 

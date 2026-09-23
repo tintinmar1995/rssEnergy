@@ -1,0 +1,40 @@
+[project]
+name = "rssEnergy"
+version = "0.0.2"
+description = "rssEnergy"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+]
+
+[project.scripts]
+
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+include-package-data = false
+packages.find.include = ["rssEnergy*"]
+
+[[tool.uv.index]]
+name = "pypi"
+url = "https://pypi.org/simple/"
+
+[tool.ruff]
+line-length = 100
+
+[dependency-groups]
+dev = [
+    "ipython>=8.32.0",
+    "jupyter>=1.1.1",
+    "ruff>=0.9.3"
+]
+docs = [
+    "mkdocs>=1.6.1",
+    "mkdocs-jupyter>=0.25.1",
+    "mkdocs-material>=9.6.9",
+    "mkdocstrings>=0.29.0",
+    "mkdocstrings-python>=1.16.8",
+]
+
