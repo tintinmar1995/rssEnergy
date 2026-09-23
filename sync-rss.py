@@ -2,7 +2,7 @@ from pathlib import Path
 import logging
 import yaml
 
-from rssEnergy import parsers, utils
+from rssEnergy import parsers, utils, feed
 
 
 # -----------------------------------------------------------------------------
@@ -51,7 +51,7 @@ def scan_feeds(feeds: dict, proxy: str | None) -> None:
         try:
             utils.validate_feed(feed_id, config)
 
-            parser_name = config["parsers"]
+            parser_name = config["parser"]
 
             if not hasattr(parsers, parser_name):
                 raise ValueError(
@@ -176,7 +176,7 @@ def main() -> None:
     args = utils.parse_args()
 
     credentials = utils.load_yaml(CREDENTIALS_FILE)
-    feeds = utils.load_yaml(RSS_FEEDS_FILE)
+    feeds = {f.id: f.to_dict() for f in feed.load_feeds(RSS_FEEDS_FILE)}
 
     url = credentials["url"]
     usr = credentials["usr"]

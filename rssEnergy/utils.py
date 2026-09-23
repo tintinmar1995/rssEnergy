@@ -122,7 +122,7 @@ def build_proxies(proxy: str | None) -> dict | None:
 def validate_feed(feed_id: str, config: dict) -> None:
     """Vérifie la présence des champs obligatoires."""
 
-    required_keys = ["name", "url", "parsers"]
+    required_keys = ["name", "url", "parser"]
 
     missing = [key for key in required_keys if key not in config]
 
