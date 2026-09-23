@@ -5,6 +5,7 @@ import yaml
 import requests
 import argparse
 
+from urllib.parse import urljoin, urlparse
 from pathlib import Path
 
 
@@ -24,6 +25,45 @@ def parse_args() -> argparse.Namespace:
     )
 
     return parser.parse_args()
+
+
+def ensure_url(url: str, suspected_uri: str | None) -> str | None:
+    """
+    Transforme une URL potentiellement relative en URL absolue.
+
+    Examples
+    --------
+    >>> ensure_url(
+    ...     "https://meteofrance.com/actualites/a-la-une",
+    ...     "/actualites/canicule"
+    ... )
+    'https://meteofrance.com/actualites/canicule'
+
+    >>> ensure_url(
+    ...     "https://meteofrance.com/actualites/a-la-une",
+    ...     "actualites/canicule"
+    ... )
+    'https://meteofrance.com/actualites/actualites/canicule'
+
+    >>> ensure_url(
+    ...     "https://meteofrance.com/actualites/a-la-une",
+    ...     "https://www.example.com/article"
+    ... )
+    'https://www.example.com/article'
+    """
+
+    if not suspected_uri:
+        return None
+
+    suspected_uri = suspected_uri.strip()
+
+    parsed = urlparse(suspected_uri)
+
+    # Déjà absolue
+    if parsed.scheme and parsed.netloc:
+        return suspected_uri
+
+    return urljoin(url, suspected_uri)
 
 
 def push_articles(url, feed, data, usr, pwd, proxies):

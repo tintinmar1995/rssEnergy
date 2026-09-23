@@ -3,16 +3,22 @@ from pathlib import Path
 from typing import Optional
 import yaml
 
+from . import utils, parsers
+
 
 @dataclass
 class Feed:
     id: str
-    enabled: bool
     name: str
     url: str
+    enabled: bool = False
     img: Optional[str] = None
     parser: Optional[str] = None
     debug: Optional[str] = None
+
+    @property
+    def dump_file(self):
+        return utils.path_dump_articles(self.id)
 
     def to_dict(self) -> dict:
         data = asdict(self)
@@ -20,6 +26,18 @@ class Feed:
 
         # suppression des champs None pour retrouver la structure YAML
         return {k: v for k, v in data.items() if v is not None}
+
+    def sync(self, proxy):
+        if not hasattr(parsers, self.parser):
+            raise ValueError(
+                f"Parser inconnu : {self.parser}"
+            )
+        return getattr(parsers, self.parser)(proxy)
+
+    def load_articles(self):
+        with open(self.dump_file, encoding="utf-8") as f:
+            articles = yaml.safe_load(f)
+        return articles
 
 
 def load_feeds(yaml_file: str | Path, only_enabled: bool = False) -> list[Feed]:

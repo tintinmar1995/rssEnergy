@@ -34,11 +34,11 @@ def scan_feeds(feeds: dict, proxy: str | None) -> None:
 
     SCANNED_DIR.mkdir(exist_ok=True)
 
-    for feed_id, config in feeds.items():
+    for feed_id, feed in feeds.items():
 
-        feed_name = config.get("name", feed_id)
+        feed_name = feed.name
 
-        if not config.get("enabled", False):
+        if not feed.enabled:
             logger.info("%s : désactivé", feed_name)
             continue
 
@@ -49,24 +49,14 @@ def scan_feeds(feeds: dict, proxy: str | None) -> None:
             continue
 
         try:
-            utils.validate_feed(feed_id, config)
-
-            parser_name = config["parser"]
-
-            if not hasattr(parsers, parser_name):
-                raise ValueError(
-                    f"Parser inconnu : {parser_name}"
-                )
+            utils.validate_feed(feed_id, feed.to_dict())
 
             logger.info("%s : scan en cours", feed_name)
-
-            parser = getattr(parsers, parser_name)
-
             articles = {
-                "img": config.get("img"),
-                "name": config["name"],
-                "url": config["url"],
-                "articles": parser(proxy)
+                "img": feed.img,
+                "name": feed.name,
+                "url": feed.url,
+                "articles": feed.sync(proxy)
             }
 
             logger.info(
@@ -109,17 +99,17 @@ def push_feeds(
     Envoie les articles collectés vers l'API cible.
     """
 
-    for feed_id, config in feeds.items():
+    for feed_id, feed in feeds.items():
 
-        feed_name = config.get("name", feed_id)
+        feed_name = feed.name
 
-        if not config.get("enabled", False):
+        if not feed.enabled:
             logger.info("%s : désactivé", feed_name)
             continue
 
         logger.info("%s : publication", feed_name)
 
-        dump_file = utils.path_dump_articles(feed_id)
+        dump_file = feed.dump_file
 
         if not Path(dump_file).exists():
             logger.warning(
@@ -128,14 +118,20 @@ def push_feeds(
             )
             continue
 
-        with open(dump_file, encoding="utf-8") as f:
-            articles = yaml.safe_load(f)
+        articles = feed.load_articles()
 
         # Suppression des doublons avant envoi
         unique_articles = utils.remove_duplicates(
             articles["articles"],
             "guid"
         )
+
+        # Relative url to absolute url
+        for article in unique_articles:
+            article["link"] = utils.ensure_url(
+                url=articles["url"],
+                suspected_uri=article["link"]
+            )
 
         # Ajout de métadonnées communes
         for article in unique_articles:
@@ -176,7 +172,7 @@ def main() -> None:
     args = utils.parse_args()
 
     credentials = utils.load_yaml(CREDENTIALS_FILE)
-    feeds = {f.id: f.to_dict() for f in feed.load_feeds(RSS_FEEDS_FILE)}
+    feeds = {f.id: f for f in feed.load_feeds(RSS_FEEDS_FILE)}
 
     url = credentials["url"]
     usr = credentials["usr"]
