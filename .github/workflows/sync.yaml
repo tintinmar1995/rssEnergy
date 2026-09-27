@@ -26,4 +26,5 @@ jobs:
 
       - name: Exécuter le script
         run: |
+          pip install .
           python sync-rss.py
