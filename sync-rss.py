@@ -2,7 +2,7 @@ from pathlib import Path
 import logging
 import yaml
 
-from rssEnergy import parsers, utils, feed
+from rssEnergy import parsers, utils
 
 
 # -----------------------------------------------------------------------------
