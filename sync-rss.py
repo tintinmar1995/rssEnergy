@@ -2,7 +2,7 @@ from pathlib import Path
 import logging
 import yaml
 
-from rssEnergy import parsers, utils
+from rssEnergy import parsers, utils, load_feeds
 
 
 # -----------------------------------------------------------------------------
@@ -172,7 +172,7 @@ def main() -> None:
     args = utils.parse_args()
 
     credentials = utils.load_yaml(CREDENTIALS_FILE)
-    feeds = {f.id: f for f in feed.load_feeds(RSS_FEEDS_FILE)}
+    feeds = {f.id: f for f in load_feeds(RSS_FEEDS_FILE)}
 
     url = credentials["url"]
     usr = credentials["usr"]
